@@ -1,6 +1,5 @@
 #/bin/bash
 
 set -e
-
-python heap_test.py
+python data_structures/binary_heap.py
 
