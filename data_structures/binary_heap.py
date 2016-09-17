@@ -1,4 +1,8 @@
 
+# todo type checking, and making sure the input has a comparison operator
+# defined?
+
+
 class MinHeap:
     def __init__(self):
         self.data = []
@@ -31,6 +35,11 @@ if __name__ == "__main__":
     test_heap = MinHeap()
     for val in values:
         test_heap.push(val)
+
+    test_heap.pop()
+    test_heap.pop()
+    test_heap.push(-100)
+    test_heap.push(222233444)
 
     while (len(test_heap.data) != 0):
         print "current heap      ", test_heap.data
