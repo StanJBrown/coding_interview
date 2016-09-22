@@ -7,23 +7,52 @@ class MinHeap:
     def __init__(self):
         self.data = []
 
-    def heapify(self):
-        i = 0
-        while (i < len(self.data) - 1):
-            if (self.data[i] > self.data[i+1]):
-                self.data[i], self.data[i + 1] = self.data[i + 1], self.data[i]
-                i = 0
-                continue
-            i += 1
+    def swap(self, x, y):
+        self.data[x], self.data[y] = self.data[y], self.data[x]
+
+    def heapifyUp(self, curr):
+        parent = curr / 2
+        curr_val = self.data[curr]
+        parent_val = self.data[parent]
+
+        while curr_val < parent_val and curr != 0:
+            self.swap(curr, parent)
+            curr = parent
+            parent = curr / 2
+            curr_val = self.data[curr]
+            parent_val = self.data[parent]
+
+        return
+
+    def heapifyDown(self):
+        # check both of the childern
+        parent = 0
+        end = len(self.data)
+
+        while 2 * parent + 1 < end:
+            child = 2 * parent + 1
+
+            # check if right node exists and if it is larger then left
+            if child + 1 < end and self.data[child] > self.data[child + 1]:
+                child += 1
+
+            # swap parent with child if parent is larger
+            if self.data[parent] > self.data[child]:
+                self.swap(parent, child)
+                parent = child
+
+            else:
+                return
 
     def push(self, value):
         self.data.append(value)
-        self.heapify()
+        if len(self.data) > 1:
+            self.heapifyUp(len(self.data) - 1)
 
     def pop(self):
-        self.data[0], self.data[-1] = self.data[-1], self.data[0]
+        self.swap(0, -1)
         tmp = self.data.pop()
-        self.heapify()
+        self.heapifyDown()
         return tmp
 
     def peek(self):
@@ -31,10 +60,11 @@ class MinHeap:
 
 
 if __name__ == "__main__":
-    values = [-1, -3, 1, 2, 10, 3, 20233, 1, 5, 7]
+    values = [-1, -3, 2, 10, 3, 20233, 5, 7]
     test_heap = MinHeap()
     for val in values:
         test_heap.push(val)
+
 
     test_heap.pop()
     test_heap.pop()
@@ -43,4 +73,9 @@ if __name__ == "__main__":
 
     while (len(test_heap.data) != 0):
         print "current heap      ", test_heap.data
-        print "minimum value     ", test_heap.pop()
+        print "min value", test_heap.pop()
+
+
+
+
+
